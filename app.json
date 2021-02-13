@@ -1,0 +1,16 @@
+{
+  "expo": {
+   "name": "karma",
+   "icon": "./icons/app-icon.png",
+   "version": "1.0.0",
+   "slug": "karma",
+   "ios": {
+     "bundleIdentifier": "com.piedpiper.karma",
+     "buildNumber": "1.0.0"
+   },
+   "android": {
+     "package": "com.piedpiper.karma",
+     "versionCode": 1
+   }
+  }
+}

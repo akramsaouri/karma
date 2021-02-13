@@ -87,7 +87,7 @@ export const HomeScreen = ({ navigation }) => {
               See all
             </Button>
           </View>
-          {transactionData && (
+          {transactionData?.[0]?.transactions?.length > 0 && (
             <View>
               <TransactionItem item={transactionData[0].transactions[0]} />
             </View>

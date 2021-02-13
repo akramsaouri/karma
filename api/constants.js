@@ -1,3 +1,4 @@
-export const apiBaseURL = `http://localhost:5000`;
+import { API_BASE_URL, ADD_REASON_ID } from "@env";
 
-export const addReasonId = "601ec86035a2a11529482f87";
+export const apiBaseURL = API_BASE_URL;
+export const addReasonId = ADD_REASON_ID;
