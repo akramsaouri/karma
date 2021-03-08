@@ -89,7 +89,10 @@ export const HomeScreen = ({ navigation }) => {
           </View>
           {transactionData?.[0]?.transactions?.length > 0 && (
             <View>
-              <TransactionItem item={transactionData[0].transactions[0]} />
+              <TransactionItem
+                item={transactionData[0].transactions[0]}
+                showFullDate
+              />
             </View>
           )}
         </Layout>

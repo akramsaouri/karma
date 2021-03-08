@@ -3,7 +3,6 @@ import {
   Divider,
   Icon,
   List,
-  ListItem,
   TopNavigation,
   TopNavigationAction,
   Layout,
@@ -15,6 +14,7 @@ import { SafeAreaView, View } from "react-native";
 import { TransactionItem } from "../components/TransactionItem.component";
 import useSWR from "swr";
 import { apiBaseURL } from "../api/constants";
+import format from "date-fns/format";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -41,13 +41,13 @@ export const TransactionsScreen = ({ navigation }) => {
     }
     if (!data) return <Spinner />;
     return data.map((row) => {
-      return <Section key={row.id} row={row} />;
+      return <Section key={row._id} row={row} />;
     });
   };
 
   const Section = ({ row }) => {
     return (
-      <View key={row.meta.date}>
+      <View>
         <View
           style={{
             flexDirection: "row",
@@ -58,7 +58,7 @@ export const TransactionsScreen = ({ navigation }) => {
           }}
         >
           <Text style={{ color: theme["text-basic-color"] }}>
-            {row.meta.date}
+            {format(new Date(row.meta.date), "d MMMM")}
           </Text>
           <Text style={{ color: theme["text-hint-color"] }} category="p2">
             {row.meta.sum} KP

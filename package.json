@@ -15,6 +15,7 @@
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
     "@xstate/react": "^1.2.2",
+    "date-fns": "^2.19.0",
     "expo": "~40.0.0",
     "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
