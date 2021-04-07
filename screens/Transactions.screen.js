@@ -11,10 +11,11 @@ import {
   Spinner,
 } from "@ui-kitten/components";
 import { SafeAreaView, View } from "react-native";
-import { TransactionItem } from "../components/TransactionItem.component";
 import useSWR from "swr";
-import { apiBaseURL } from "../api/constants";
 import format from "date-fns/format";
+
+import { apiBaseURL } from "../api/constants";
+import { TransactionItem } from "../components/TransactionItem.component";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -40,12 +41,16 @@ export const TransactionsScreen = ({ navigation }) => {
       );
     }
     if (!data) return <Spinner />;
-    return data.map((row) => {
-      return <Section key={row._id} row={row} />;
-    });
+    return (
+      <List
+        style={{ backgroundColor: "transparent" }}
+        data={data}
+        renderItem={Section}
+      />
+    );
   };
 
-  const Section = ({ row }) => {
+  const Section = ({ item: row }) => {
     return (
       <View>
         <View
@@ -64,7 +69,10 @@ export const TransactionsScreen = ({ navigation }) => {
             {row.meta.sum} KP
           </Text>
         </View>
-        <List data={row.transactions} renderItem={TransactionItem} />
+        <List
+          data={row.transactions.slice().reverse()}
+          renderItem={TransactionItem}
+        />
       </View>
     );
   };

@@ -10,11 +10,13 @@ import {
   Text,
   TopNavigation,
   TopNavigationAction,
+  Card,
   useTheme,
 } from "@ui-kitten/components";
-import { ReasonCard } from "../components/ReasonCard.component";
 import useSWR, { mutate } from "swr";
+
 import { addReasonId, apiBaseURL } from "../api/constants";
+import { ReasonCard } from "../components/ReasonCard.component";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -40,6 +42,7 @@ export const EditBalanceScreen = ({ navigation, route }) => {
   );
   const theme = useTheme();
   const { data, error } = useSWR(apiBaseURL + "/api/reasons");
+  const [mutateState, setMutateState] = useState("idle");
 
   const navigateBack = () => {
     if (step === "form") {
@@ -94,6 +97,7 @@ export const EditBalanceScreen = ({ navigation, route }) => {
       reason: selectedReason,
     };
     try {
+      setMutateState("loading");
       const result = await fetch(apiBaseURL + "/api/transactions", {
         method: "POST",
         headers: {
@@ -108,13 +112,12 @@ export const EditBalanceScreen = ({ navigation, route }) => {
       mutate(apiBaseURL + "/api/transactions");
       navigation.navigate("Home");
     } catch (error) {
-      console.log(error);
+      setMutateState("error");
     }
   };
 
   const ReasonsList = () => {
     if (error) {
-      console.log(error);
       return (
         <Text status="danger">
           Some error occured when trying to fetch list of reasons.
@@ -145,6 +148,13 @@ export const EditBalanceScreen = ({ navigation, route }) => {
         accessoryLeft={BackAction}
       />
       <Divider />
+      {mutateState === "error" && (
+        <Card status="danger">
+          <Text category="c1" status="danger">
+            Something went wrong when trying to edit the balance
+          </Text>
+        </Card>
+      )}
       {step === "form" && (
         <Layout
           style={{
@@ -166,7 +176,7 @@ export const EditBalanceScreen = ({ navigation, route }) => {
           />
           <Button
             style={{ width: "100%", margin: 30 }}
-            disabled={!isValueValid()}
+            disabled={!isValueValid() || mutateState === "loading"}
             onPress={submitBalanceForm}
           >
             {operation === "ADD" ? "Save amount" : "Pick reason"}
@@ -199,7 +209,10 @@ export const EditBalanceScreen = ({ navigation, route }) => {
             style={{ flex: 1, justifyContent: "flex-end", padding: 30 }}
             level="4"
           >
-            <Button disabled={!selectedReason} onPress={submitReasonForm}>
+            <Button
+              disabled={!selectedReason || mutateState === "loading"}
+              onPress={submitReasonForm}
+            >
               Save amount
             </Button>
           </Layout>

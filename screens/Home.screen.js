@@ -10,9 +10,10 @@ import {
   useTheme,
   Avatar,
 } from "@ui-kitten/components";
-import { TransactionItem } from "../components/TransactionItem.component";
 import useSWR from "swr";
+
 import { apiBaseURL } from "../api/constants";
+import { TransactionItem } from "../components/TransactionItem.component";
 
 export const HomeScreen = ({ navigation }) => {
   const theme = useTheme();
